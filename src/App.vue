@@ -1,10 +1,43 @@
+<script>
+export default {
+  data: function () {
+    return {
+      isLoggedIn: false,
+      flashMessage: "Test",
+    };
+  },
+  methods: {
+    getUserId: function () {
+      return localStorage.getItem("user_id");
+    },
+  },
+  watch: {
+    $route: function () {
+      localStorage.setItem("flashMessage", "Message!");
+      // this.isLoggedIn = !!localStorage.jwt;
+      this.flashMessage = localStorage.getItem("flashMessage");
+      localStorage.removeItem("flashMessage");
+    },
+  },
+};
+</script>
+
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
     <router-link to="/movies">All Movies</router-link> |
-    <router-link to="/movies/new">New Movie</router-link>
+    <router-link to="/movies/new">New Movie</router-link> |
+    <router-link to="/signup">Signup</router-link> |
+    <router-link to="/login">Login</router-link> |
+    <router-link to="/logout">Logout</router-link>
   </nav>
+  <div
+    v-if="flashMessage"
+    v-on:click="flashMessage = ''"
+    class="alert alert-success"
+  >
+    {{ flashMessage }}
+  </div>
   <router-view />
 </template>
 

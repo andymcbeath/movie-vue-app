@@ -5,6 +5,8 @@ export default {
   data: function () {
     return {
       movies: [],
+      currentMovie: {},
+      titleFilter: "",
     };
   },
   created: function () {
@@ -15,6 +17,13 @@ export default {
       axios.get("/movies").then((response) => {
         console.log("movies index", response);
         this.movies = response.data;
+      });
+    },
+    filterMovies: function () {
+      return this.movies.filter((movie) => {
+        var lowerTitle = movie.title.toLowerCase();
+        var lowerTitleFilter = this.titleFilter.toLowerCase();
+        return lowerTitle.includes(lowerTitleFilter);
       });
     },
   },
